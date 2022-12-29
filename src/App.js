@@ -1,23 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import {  Form, Formik, Field } from "formik";
+import { useState } from "react";
 
 function App() {
+  const [data, setData] = useState([])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Formik
+        initialValues={{
+          username: "",
+          password: "",
+          email: "",
+          about: "",
+          phoneNumber: "",
+        }}
+        onSubmit={(values) => {
+          setData((prevState) => [...prevState,values])
+        }}
+      >
+        {(props) => (
+          <Form>
+            <Field name="username" />
+            <Field name="password" type="password" />
+            <Field name="email" type="email" />
+            <Field name="about" type="text" />
+            <Field name="phoneNumber" type="number" />
+            <button type="submit">Sign in</button>
+          </Form>
+        )}
+      </Formik>
+
+      {
+        <ol>
+          {data.map((element,index) => {
+            return (
+              <li key={index}>
+                <p>{element.username}</p>
+                <p>{element.password}</p>
+                <p>{element.email}</p>
+                <p>{element.about}</p>
+                <p>{element.phoneNumber}</p>
+                
+              </li>
+            )
+          })}
+        </ol>
+      }   
+      
     </div>
   );
 }
